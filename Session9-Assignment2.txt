@@ -1,0 +1,86 @@
+DATA SET DESCRIPTION
+
+Name: chararray
+Col.Undertaken: chararray
+Dob: chararray
+Stream: chararray
+Grade: float
+State: chararray
+City: chararray
+
+
+We will write pig scripts to answer the following questions.
+To execute: pig -x local /home/acadgild/Assignment-session9/Answer2_1.pig
+To execute: pig -x local /home/acadgild/Assignment-session9/Answer2_2.pig
+To execute: pig -x local /home/acadgild/Assignment-session9/Answer2_3.pig
+To execute: pig -x local /home/acadgild/Assignment-session9/Answer2_4.pig
+
+********************************************************************************************************
+--------------------------------------------------------------------------------------------------------
+(A) Find the number of students who scored less than 5(50%).
+--------------------------------------------------------------------------------------------------------
+
+StudentData = LOAD '/home/acadgild/Assignment-session9/studentDS.txt' USING PigStorage(',') AS 	
+(Name:chararray, College:chararray, DOB:chararray, SStream:chararray, Grade:float, State: chararray, City:chararray);
+
+Data1 = FILTER StudentData BY Grade<5;
+
+DataGrp = Group Data1 ALL;
+
+Data2 = FOREACH DataGrp GENERATE COUNT(Data1); 
+
+DUMP Data2; 
+
+********************************************************************************************************
+
+********************************************************************************************************
+--------------------------------------------------------------------------------------------------------
+(B) List the name of students who are from Alaska.
+--------------------------------------------------------------------------------------------------------
+
+StudentData = LOAD '/home/acadgild/Assignment-session9/studentDS.txt' USING PigStorage(',') AS 	
+(Name:chararray, College:chararray, DOB:chararray, SStream:chararray, Grade:float, State: chararray, City:chararray);
+
+Data1 = FILTER StudentData BY state == 'alaska';
+
+Data2 = FOREACH Data1 GENERATE Name; 
+
+DUMP Data2; 
+
+********************************************************************************************************
+
+********************************************************************************************************
+--------------------------------------------------------------------------------------------------------
+(C) How many government collages are there in Alabama?
+--------------------------------------------------------------------------------------------------------
+
+StudentData = LOAD '/home/acadgild/Assignment-session9/studentDS.txt' USING PigStorage(',') AS 	
+(Name:chararray, College:chararray, DOB:chararray, SStream:chararray, Grade:float, State: chararray, City:chararray);
+
+Data1 = FILTER StudentData BY State == 'alabama' and College == 'goverenment';
+
+DataGrp = Group Data1 ALL;
+
+Data2 = FOREACH DataGrp GENERATE COUNT(Data1); 
+
+DUMP Data2; 
+
+********************************************************************************************************
+
+********************************************************************************************************
+--------------------------------------------------------------------------------------------------------
+(D) List the name of students who are from Oregon and persuing BE.
+--------------------------------------------------------------------------------------------------------
+
+StudentData = LOAD '/home/acadgild/Assignment-session9/studentDS.txt' USING PigStorage(',') AS 	
+(Name:chararray, College:chararray, DOB:chararray, SStream:chararray, Grade:float, State: chararray, City:chararray);
+
+Data1 = FILTER StudentData BY State == 'oregon' and SStream == 'BE';
+
+Data2 = FOREACH Data1 GENERATE Name; 
+
+DUMP Data2; 
+
+********************************************************************************************************
+
+
